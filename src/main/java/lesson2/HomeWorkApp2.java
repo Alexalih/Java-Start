@@ -7,7 +7,7 @@ public class HomeWorkApp2 {
         int year = 2024;
         String word = "Привет!";
 
-        System.out.println(checkTotal(a, b));
+        System.out.println(checkSum(a, b));
 
         checkNamber(a);
 
@@ -49,12 +49,12 @@ public class HomeWorkApp2 {
         }
     }
 
-    private static boolean checkTotal(int a, int b) {
-        int total = a + b;
-        if (total >= 10 && total <= 20) {
-            return true;
-        } else {
+    private static boolean checkSum(int a, int b) {
+        int sum = a + b;
+        if (sum <= 10 && sum >= 20) {
             return false;
+        } else {
+            return true;
         }
     }
 }
