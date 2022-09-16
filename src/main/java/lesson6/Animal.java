@@ -12,11 +12,11 @@ public abstract class Animal {
         this.maxSwimDistance = maxSwimDistance;
     }
 
-    public static void addCountAnimals() {
+    static void addCountAnimals() {
         countAnimals++;
     }
 
-    public static int getCountAnimal() {
+    public static int getCountAnimals() {
         return countAnimals;
     }
 
