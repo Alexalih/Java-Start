@@ -4,7 +4,7 @@ public class HomeWorkApp2 {
     public static void main(String[] args) {
         int a = 5;
         int b = 8;
-        int year = 2024;
+        int year = 2025;
         String word = "Привет!";
 
         System.out.println(checkSum(a, b));
@@ -20,11 +20,18 @@ public class HomeWorkApp2 {
     }
 
     private static boolean isLeapYear(int year) {
-        if (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) {
-            return false;
-        } else {
+
+        if (year % 400 == 0) {
             return true;
         }
+        if (year % 100 == 0) {
+            return false;
+        }
+
+        if (year % 4 == 0) {
+            return  true;
+        }
+        return  false;
     }
 
     private static void seriesWord(String word, int a) {
@@ -34,15 +41,11 @@ public class HomeWorkApp2 {
     }
 
     private static boolean numberIsPositive(int a) {
-        if (a < 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return (a >= 0);
     }
 
     private static void checkNamber(int a) {
-        if (a >= 0) {
+        if (numberIsPositive(a)) {
             System.out.println("Число положительное");
         } else {
             System.out.println("Число отрицательное");
@@ -50,11 +53,6 @@ public class HomeWorkApp2 {
     }
 
     private static boolean checkSum(int a, int b) {
-        int sum = a + b;
-        if (sum <= 10 && sum >= 20) {
-            return false;
-        } else {
-            return true;
-        }
+        return (a + b > 10 && a + b < 20);
     }
 }

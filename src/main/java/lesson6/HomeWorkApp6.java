@@ -13,6 +13,6 @@ public class HomeWorkApp6 {
         cat1.run(150);
         cat1.swim(14);
 
-        System.out.println("Всего живтоных - "+ Animal.getCountAnimal());
+        System.out.println("Всего живтоных - "+ Animal.getCountAnimals());
     }
 }
