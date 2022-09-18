@@ -10,9 +10,6 @@ public abstract class Animal {
         this.animalSpecies = animalSpecies;
         this.maxRunDistance = maxRunDistance;
         this.maxSwimDistance = maxSwimDistance;
-    }
-
-    static void addCountAnimals() {
         countAnimals++;
     }
 
