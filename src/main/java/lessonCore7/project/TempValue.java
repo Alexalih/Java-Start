@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TempValue {
     @JsonProperty("Value")
-    private String value;
+    private Double value;
     @JsonProperty("Unit")
     private String unit;
 
-    public String getValue() {
+    public Double getValue() {
         return value;
     }
 
