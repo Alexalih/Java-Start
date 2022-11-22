@@ -1,12 +1,11 @@
 package lessonCore7.project;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-
-import static lessonCore7.project.Period.FIVE_DAY;
-import static lessonCore7.project.Period.NOW;
+import static lessonCore7.project.Period.*;
 
 public class Controller {
     private WeatherModel  weatherModel = new AccuWeatherModel();
@@ -17,7 +16,7 @@ public class Controller {
         variants.put(5, FIVE_DAY);
     }
 
-    public void getWeather(String inputTime, String inputCity) throws IOException {
+    public void getWeather(String inputTime, String inputCity) throws IOException, SQLException {
         Integer command = Integer.parseInt(inputTime);
 
         switch (variants.get(command)){
@@ -27,7 +26,11 @@ public class Controller {
             case FIVE_DAY:
                 weatherModel.getWeather(inputCity, FIVE_DAY);
                 break;
+
         }
     }
 
+    public void getDatafromDB() throws IOException {
+        weatherModel.getAllSavedData();
+    }
 }

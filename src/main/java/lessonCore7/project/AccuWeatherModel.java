@@ -8,6 +8,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -19,7 +20,7 @@ public class AccuWeatherModel implements WeatherModel {
     private static final String DAILY = "daily";
     private static final String ONE_DAY = "1day";
     private static final String FIVE_DAY = "5day";
-    private static final String API_KEY = "M0sGZAUD12ZL2mtwth1yfonOxU9rZyvu";
+    private static final String API_KEY = "0d1tNZJPfzzT3qGokM18FGGxAUpt7hpj";
     private static final String API_KEY_QUERY_PARAM = "apikey";
     private static final String LOCATIONS = "locations";
     private static final String CITIES = "cities";
@@ -28,9 +29,15 @@ public class AccuWeatherModel implements WeatherModel {
     private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
+    private DataBaseRepository dataBaseRepository = new DataBaseRepository();
 
     @Override
-    public void getWeather(String city, Period period) throws IOException {
+    public void getAllSavedData() throws IOException {
+        dataBaseRepository.getAllSavedData();
+    }
+
+    @Override
+    public void getWeather(String city, Period period) throws IOException, SQLException {
         if (getCityLocation(city)[0] == null) {
             System.out.println("Город не найден, попробуйте еще раз!");
             return;
@@ -62,11 +69,14 @@ public class AccuWeatherModel implements WeatherModel {
                 Weather weatherOneDay = OBJECT_MAPPER.readValue(weatherResponse, Weather.class);
 
                 String text = weatherOneDay.getHeadline().getText();
-                String min = weatherOneDay.getDailyForecasts().get(0).getTemperature().getMinimum().getValue();
-                String max = weatherOneDay.getDailyForecasts().get(0).getTemperature().getMaximum().getValue();
+                String date =weatherOneDay.getDailyForecasts().get(0).getData().substring(0, 10);
+                String weatherText = weatherOneDay.getDailyForecasts().get(0).getDay().getText();
+                Double min = weatherOneDay.getDailyForecasts().get(0).getTemperature().getMinimum().getValue();
+                Double max = weatherOneDay.getDailyForecasts().get(0).getTemperature().getMaximum().getValue();
                 String unit = weatherOneDay.getDailyForecasts().get(0).getTemperature().getMaximum().getUnit();
 
                 System.out.printf("В городе %s  -  %s" + "\n" + "Температура воздуха от %s до %s %s.%n", cityName, text, min, max, unit);
+                dataBaseRepository.saveWeatherToDataBase(city,date, weatherText, min);
                 break;
 
             case FIVE_DAY:
@@ -97,11 +107,17 @@ public class AccuWeatherModel implements WeatherModel {
                 System.out.printf("Погода в  городе %s на 5 дней:%n", cityName);
 
                 for (int i = 0; i < days.size(); i++) {
-                    String date = weatherFiveDay.getDailyForecasts().get(i).getData().substring(0, 10);
+                    date = weatherFiveDay.getDailyForecasts().get(i).getData().substring(0, 10);
                     min = weatherFiveDay.getDailyForecasts().get(i).getTemperature().getMinimum().getValue();
                     max = weatherFiveDay.getDailyForecasts().get(i).getTemperature().getMaximum().getValue();
                     System.out.printf("%s: от %s  до %s %s%n", date, min, max, unit);
                 }
+
+
+                date =weatherFiveDay.getDailyForecasts().get(0).getData().substring(0, 10);
+                weatherText = weatherFiveDay.getDailyForecasts().get(0).getDay().getText();
+                min = weatherFiveDay.getDailyForecasts().get(0).getTemperature().getMinimum().getValue();
+                dataBaseRepository.saveWeatherToDataBase(city, date, weatherText,min);
                 break;
         }
 
@@ -138,6 +154,7 @@ public class AccuWeatherModel implements WeatherModel {
             cityMap[1] = cityName;
         }
         return cityMap;
+
 
     }
 }

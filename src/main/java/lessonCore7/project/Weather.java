@@ -23,6 +23,18 @@ public class Weather {
         return dailyForecasts;
     }
 
+    public String getDate(){
+       return getDailyForecasts().get(0).getData().substring(0, 10);
+    }
+    public String getText (){
+        return getDailyForecasts().get(0).getDay().getText();
+    }
+    public Double getTemp () {
+        return  getDailyForecasts().get(0).getTemperature().getMinimum().getValue();
+    }
+
+
+
     @Override
     public String toString() {
         return "WeatherOneDay{" +

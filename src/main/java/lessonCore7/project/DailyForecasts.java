@@ -10,7 +10,12 @@ public class DailyForecasts {
     @JsonProperty("Date")
     private String data;
 
+    @JsonProperty("Day")
+    private Day day;
 
+    public Day getDay() {
+        return day;
+    }
     public Temperature getTemperature() {
         return temperature;
     }
